@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183e37"><title>渡 · Bridge Chat</title><link rel="stylesheet" href="./style.css"></head>
+<body>
+<div class="app">
+ <aside id="sidebar">
+  <a class="brand" href="./"><span class="brand-icon">渡</span><span>Bridge<span class="brand-sub">一个想法，一次对话。</span></span></a>
+  <button id="new-chat" class="new-chat"><span>＋</span> 开启新对话 <span class="shortcut">↗</span></button>
+  <div class="section-label">你的对话 <span id="conversation-count">0</span></div>
+  <nav id="conversations" aria-label="历史对话"></nav>
+  <div class="sidebar-bottom"><div class="private-label"><span>◈</span><div>私享对话空间<small>只有你能看到这里的记录</small></div></div><button id="logout" class="quiet">退出登录 ↗</button></div>
+ </aside>
+ <main>
+  <header><div class="header-left"><button id="menu" aria-label="展开会话列表">☰</button><span id="chat-title">新对话</span></div><div id="service-status" class="status"><i></i><span>连接中</span></div></header>
+  <div id="scroll-area">
+   <section id="welcome"><div class="eyebrow">YOUR IDEAS, CONNECTED</div><div class="welcome-symbol" aria-hidden="true">✳</div><h1>想法，从这里开始。</h1><p>把问题写下来，留一点空间给答案。</p>
+    <div class="suggestions"><button data-prompt="帮我把一个想法梳理成清晰、可执行的计划。先问我几个关键问题。"><span>↗</span><strong>把想法变成计划</strong><small>一起找到下一步</small></button><button data-prompt="我想深入理解一个概念。请先问我想了解什么，再用直觉和例子解释。"><span>◎</span><strong>理解一个新概念</strong><small>让复杂的事情变简单</small></button><button data-prompt="帮我润色一段文字，让它更清楚、自然。我接下来会发给你。"><span>✎</span><strong>打磨一段文字</strong><small>让表达更靠近想法</small></button></div>
+   </section>
+   <section id="messages" aria-live="polite" aria-label="对话内容"></section>
+  </div>
+  <div class="compose-area"><div id="notice" role="status"></div><form id="composer"><textarea id="prompt" placeholder="写下你的问题，或继续刚才的想法…" rows="1" maxlength="16000" aria-label="消息输入"></textarea><div class="composer-bottom"><span id="input-hint">Enter 发送 · Shift + Enter 换行</span><button id="send" type="submit" aria-label="发送消息">↑</button></div></form><p class="footnote">每一场对话都独立保存。重要的信息，请与可靠来源核对。</p></div>
+ </main>
+</div>
+<dialog id="login"><form id="login-form"><span class="login-mark">渡</span><div class="eyebrow">A PRIVATE SPACE FOR IDEAS</div><h2>欢迎来到 Bridge。</h2><p>输入你的邀请码，开始一场对话。</p><label for="invite">邀请码</label><input id="invite" type="password" autocomplete="off" required placeholder="输入邀请码"><div id="login-error" role="alert"></div><button class="primary" type="submit">进入对话 <span>↗</span></button><small>登录凭证保存在当前浏览器，30 天内有效。</small></form></dialog>
+<script src="./config.js"></script><script type="module" src="./app.js"></script>
+</body></html>

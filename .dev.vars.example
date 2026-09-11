@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local use. Set production values with wrangler secret put.
+INVITE_CODE=replace-with-a-long-random-invite
+SESSION_SECRET=replace-with-at-least-32-random-characters
+CONNECTOR_TOKEN=replace-with-a-different-long-random-secret
