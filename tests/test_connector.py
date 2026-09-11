@@ -4,11 +4,18 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'local'))
-from connector import Relay, fingerprint
+from connector import Relay, fingerprint, persistent_chat_path
 from bridge import Bridge
 
 
 class ConnectorTests(unittest.TestCase):
+    def test_temporary_chat_url_not_bound_as_persistent_conversation(self):
+        cid='6aa3ad63-b948-83e9-bc33-696bf5b47257'
+        self.assertFalse(persistent_chat_path('/c/WEB:'+cid))
+        self.assertFalse(persistent_chat_path('/'))
+        self.assertTrue(persistent_chat_path('/c/'+cid))
+        self.assertTrue(persistent_chat_path('/g/example/c/'+cid))
+
     def setUp(self):
         self.bridge=Bridge('test-token')
         self.relay=Relay({'connector_id':'test'},self.bridge,sqlite3.connect(':memory:'))

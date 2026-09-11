@@ -7,6 +7,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 import sqlite3
 import subprocess
 import time
@@ -23,6 +24,11 @@ def normalized(s):
 
 def fingerprint(text):
     return hashlib.sha256(normalized(text).encode()).hexdigest()
+
+
+def persistent_chat_path(path):
+    # ChatGPT briefly uses /c/WEB:<uuid> before assigning a durable conversation.
+    return bool(re.search(r'/c/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',path,re.I))
 
 
 class Relay:
@@ -94,7 +100,7 @@ class Relay:
             missing_since=None
             path=urllib.parse.urlsplit(p['url']).path
             if bound_path and path!=bound_path:raise RuntimeError('生成期间会话页面已切换')
-            if not saved and '/c/' in path and bound_path is None:bound_path=path
+            if not saved and persistent_chat_path(path) and bound_path is None:bound_path=path
             if p.get('lastCommand')==command and p.get('commandError'):raise RuntimeError(p['commandError'])
             if p.get('userCount',0)>before_users and fingerprint(p.get('lastUser',''))==expected:confirmed=True
             if p.get('userCount',0)>before_users and fingerprint(p.get('lastUser',''))!=expected:raise RuntimeError('页面消息与当前请求不匹配')
@@ -109,7 +115,7 @@ class Relay:
             if answer!=previous:
                 self.update(job,answer=answer);previous=answer;stable_since=t
             if answer.strip() and not p.get('isGenerating') and not p.get('busy') and stable_since is not None and t-stable_since>=3:
-                if not bound_path or '/c/' not in bound_path:raise RuntimeError('未确认独立对话地址')
+                if not bound_path or not persistent_chat_path(bound_path):raise RuntimeError('未确认独立对话地址')
                 self.db.execute('INSERT OR REPLACE INTO sessions VALUES(?,?,?,?)',(job['conversation'],p['url'],expected,p['assistantCount']))
                 self.db.execute('UPDATE journal SET stage=? WHERE id=?',('complete',job['id']));self.db.commit()
                 # Terminal uploads are idempotent. Retrying this upload never resends a prompt.
