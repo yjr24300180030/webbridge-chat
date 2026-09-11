@@ -9,7 +9,7 @@ async function request(path,method='GET',data){
 function showLogin(){if(!$('#login').open)$('#login').showModal();}
 $('#login').addEventListener('cancel',e=>e.preventDefault());
 $('#login-form').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;$('#login-error').textContent='';try{const r=await request('/api/login','POST',{code:$('#invite').value});token=r.token;localStorage.setItem('bridge-session',token);$('#invite').value='';$('#login').close();await refreshConversations();await poll();}catch(err){$('#login-error').textContent=err.message==='Failed to fetch'?'暂时连接不到服务，请稍后重试。':err.message;}finally{button.disabled=false;}});
-$('#logout').onclick=()=>{localStorage.removeItem('bridge-session');token='';current=null;conversations=[];$('#messages').replaceChildren();$('#conversations').replaceChildren();$('#welcome').hidden=false;showLogin();};
+$('#logout').onclick=()=>{if(sending)return;localStorage.removeItem('bridge-session');token='';current=null;conversations=[];retryKey=null;retryText=null;$('#messages').replaceChildren();$('#conversations').replaceChildren();$('#welcome').hidden=false;showLogin();};
 $('#menu').onclick=()=>$('#sidebar').classList.toggle('open');
 function renderConversations(){
  const nav=$('#conversations');nav.replaceChildren();$('#conversation-count').textContent=conversations.length;
@@ -18,8 +18,8 @@ function renderConversations(){
  $('#chat-title').textContent=conversations.find(c=>c.id===current)?.title||'新对话';
 }
 async function refreshConversations(){conversations=(await request('/api/conversations')).conversations;renderConversations();}
-async function select(cid){current=cid;lastRender='';busy=false;$('#messages').replaceChildren();$('#sidebar').classList.remove('open');$('#welcome').hidden=true;renderConversations();await refreshMessages();}
-$('#new-chat').onclick=()=>{current=null;lastRender='';retryKey=null;retryText=null;busy=false;$('#messages').replaceChildren();$('#welcome').hidden=false;$('#notice').textContent='';$('#sidebar').classList.remove('open');renderConversations();setSend();$('#prompt').focus();};
+async function select(cid){if(sending)return;current=cid;lastRender='';retryKey=null;retryText=null;busy=false;$('#messages').replaceChildren();$('#sidebar').classList.remove('open');$('#welcome').hidden=true;renderConversations();await refreshMessages();}
+$('#new-chat').onclick=()=>{if(sending)return;current=null;lastRender='';retryKey=null;retryText=null;busy=false;$('#messages').replaceChildren();$('#welcome').hidden=false;$('#notice').textContent='';$('#sidebar').classList.remove('open');renderConversations();setSend();$('#prompt').focus();};
 function renderText(container,text){
  // All remote text is rendered as text nodes, including HTML and code fences.
  const chunks=text.split(/```[^\n]*\n|```/g);

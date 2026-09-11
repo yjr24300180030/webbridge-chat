@@ -1,0 +1,4 @@
+Done: GitHub repository and Pages deployed; public gateway authenticated; tunnel and connector running on Mac. Public login verified in Chrome. Desktop/mobile invitation screen checked. TypeScript checks and seven automated tests pass.
+In Progress: Live ChatGPT integration smoke. Dedicated userscript installation awaits owner's confirmation.
+Next: Install local private userscript, open standby tab, verify first reply and follow-up in a new website conversation.
+Known limitations: Temporary tunnel changes on restart; Mac and Chrome must stay running. One upstream request at a time. Real ChatGPT delivery has not yet been validated. No uploads or per-person accounts.

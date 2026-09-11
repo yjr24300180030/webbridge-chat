@@ -23,7 +23,7 @@
  function api(path,data){return new Promise((resolve,reject)=>GM_xmlhttpRequest({method:'POST',url:BASE+path,headers:{'Content-Type':'application/json',Authorization:'Bearer '+TOKEN},data:JSON.stringify({page_id:pid,...data}),timeout:8000,onload:r=>{try{if(r.status!==200)throw new Error('Bridge disconnected');resolve(JSON.parse(r.responseText));}catch(e){reject(e);}},onerror:()=>reject(new Error('Bridge offline')),ontimeout:()=>reject(new Error('Bridge timeout'))}));}
  const editor=()=>document.querySelector('#prompt-textarea')||document.querySelector('[contenteditable="true"][role="textbox"]')||document.querySelector('textarea[name="prompt-textarea"]');
  const visible=e=>!!e && !!(e.offsetWidth||e.offsetHeight||e.getClientRects().length);
- function generating(){return [...document.querySelectorAll('button[data-testid="stop-button"],button[aria-label="Stop streaming"],button[aria-label="Stop"],button[aria-label="停止"],button[aria-label="停止生成"]')].some(visible);}
+ function generating(){return [...document.querySelectorAll('button[data-testid="stop-button"],button[aria-label="Stop answering"],button[aria-label="Stop streaming"],button[aria-label="Stop"],button[aria-label="停止"],button[aria-label="停止生成"]')].some(visible);}
  function snapshot(){
   const users=[...document.querySelectorAll('[data-message-author-role="user"]')], assistants=[...document.querySelectorAll('[data-message-author-role="assistant"]')],last=assistants.at(-1);
   const text=e=>e?.innerText?.trim()||'';const lastText=text(last?.querySelector('.markdown')||last);
