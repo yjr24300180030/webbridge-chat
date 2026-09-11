@@ -1,2 +1,2 @@
-// Public API origin only. Never put a secret in this file.
-window.BRIDGE_API = "";
+// Public API origin only. No secrets.
+window.BRIDGE_API = "https://include-knowledge-keep-allows.trycloudflare.com";
