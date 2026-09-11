@@ -31,6 +31,11 @@ def persistent_chat_path(path):
     return bool(re.search(r'/c/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',path,re.I))
 
 
+def project_id(url):
+    match=re.search(r'/g/(g-p-[0-9a-f]+)(?:[-/]|$)',urllib.parse.urlsplit(url).path)
+    return match[1] if match else None
+
+
 class Relay:
     def __init__(self, config, bridge, db):
         self.config, self.bridge, self.db = config, bridge, db
@@ -79,6 +84,9 @@ class Relay:
         self.db.execute('INSERT INTO journal VALUES(?,?,?)',(job['id'],'claimed',None));self.db.commit()
         saved=self.db.execute('SELECT url,prompt_hash,count FROM sessions WHERE id=?',(job['conversation'],)).fetchone()
         p=self.open_page(job,saved)
+        target_project=project_id(self.config.get('target_url',''))
+        if not saved and target_project and project_id(p.get('url',''))!=target_project:
+            raise RuntimeError('新对话未进入指定 Project，拒绝发送')
         if p.get('isGenerating') or p.get('busy') or p.get('editorText','').strip():raise RuntimeError('此页面正在使用，请稍后再试')
         if saved:
             if urllib.parse.urlsplit(p['url']).path!=urllib.parse.urlsplit(saved[0]).path:raise RuntimeError('会话页面已切换，拒绝发送到其他对话')

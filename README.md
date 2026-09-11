@@ -31,6 +31,8 @@ Keep the launcher running. Press Ctrl+C to stop. The launcher supervises its thr
 
 To change the destination from regular ChatGPT to a particular GPT/Project, edit `target_url` in the ignored file `local-state/config.json`. Only `https://chatgpt.com/…` targets are accepted. Use a dedicated destination without unrelated private Project files or custom actions: all messages are processed under the owner's signed-in account and its available context.
 
+Restart the launcher after changing `target_url`. This affects new website conversations only: follow-ups keep their existing mapped ChatGPT conversation, and no old chats are moved. For a Project target, new conversations are rejected unless their page is inside that Project. Conversations in the same Project may use its shared instructions and context; website visitor isolation does not isolate the upstream Project's memory.
+
 ## GitHub Pages setup
 
 1. Push this repository to your own GitHub account.
