@@ -1,2 +1,2 @@
 // Public API origin only. No secrets.
-window.BRIDGE_API = "https://include-knowledge-keep-allows.trycloudflare.com";
+window.BRIDGE_API = "https://jim-remedy-hockey-bluetooth.trycloudflare.com";
