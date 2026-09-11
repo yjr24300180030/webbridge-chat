@@ -63,6 +63,8 @@ python3 -m compileall -q local scripts
 
 Tests cover authenticated access, cross-user isolation, concurrent idempotency, exclusive claims, lease expiry, full response delivery, unknown-page rejection and restart replay protection. Browser UI and real ChatGPT checks must additionally be performed on the machine running Chrome. Never treat a mock answer as a live GPT verification.
 
+Live verification on 2026-09-11: the public HTTPS relay sent a new prompt through the installed dedicated userscript and received `BRIDGE_OK`; a follow-up in the same conversation received `BRIDGE_OK_FOLLOWUP`. To repeat explicitly, run `python3 scripts/live_smoke.py` (creates a new private test conversation and sends two harmless messages; it is not part of automated unit tests).
+
 ## Optional cloud relay
 
 The same Worker in `src/worker.ts` can be deployed to Cloudflare Workers + D1 later. `wrangler.jsonc` is a template: create a database, replace its placeholder ID, configure the three secrets and `ALLOWED_ORIGIN`, then apply migrations and deploy. Point `relay_url` at the remote Worker. This is optional and requires a Cloudflare account.

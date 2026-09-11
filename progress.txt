@@ -1,4 +1,6 @@
-Done: GitHub repository and Pages deployed; public gateway authenticated; tunnel and connector running on Mac. Public login verified in Chrome. Desktop/mobile invitation screen checked. TypeScript checks and seven automated tests pass.
-In Progress: Live ChatGPT integration smoke. Dedicated userscript installation awaits owner's confirmation.
-Next: Install local private userscript, open standby tab, verify first reply and follow-up in a new website conversation.
-Known limitations: Temporary tunnel changes on restart; Mac and Chrome must stay running. One upstream request at a time. Real ChatGPT delivery has not yet been validated. No uploads or per-person accounts.
+Done: GitHub repository and Pages deployed; public gateway authenticated; tunnel and connector running on Mac. Public login verified in Chrome. Desktop/mobile invitation screen checked. TypeScript checks and eight automated tests pass.
+Done: Owner approved and installed dedicated Tampermonkey script. Live public HTTPS relay returned BRIDGE_OK; same-conversation follow-up returned BRIDGE_OK_FOLLOWUP on 2026-09-11. Messages were sent once each, through the visible ChatGPT browser.
+Done: Fixed temporary /c/WEB: URL transition and browser-cached tunnel endpoint. Original interrupted message was not resent.
+In Progress: None.
+Next: Owner refreshes the GitHub website and starts a new conversation. Keep local launcher and Chrome running.
+Known limitations: Temporary tunnel changes on restart; Mac and Chrome must stay running. One upstream request at a time. No uploads or per-person accounts. Native UI observation became intermittently unavailable during final checks; final live roundtrip was verified through the website's authenticated public API.

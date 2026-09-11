@@ -7,3 +7,5 @@
 - GitHub Pages must be enabled before its first successful workflow deployment.
 - A successful mock roundtrip is not evidence of live ChatGPT delivery.
 - Do not claim owner-invisible privacy: visitors' messages are processed on the owner's computer and ChatGPT account.
+- ChatGPT's temporary /c/WEB:<uuid> URL is not a durable conversation identity; bind only the final UUID URL.
+- Bust the browser cache for temporary tunnel configuration after local restarts.
