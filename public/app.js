@@ -1,4 +1,6 @@
 const $=s=>document.querySelector(s);
+// Quick Tunnel changes on restart. Never reuse a browser-cached API endpoint.
+await import('./config.js?t='+Date.now());
 const api=(window.BRIDGE_API||location.origin).replace(/\/$/,'');
 let token=localStorage.getItem('bridge-session')||'',current=null,conversations=[],busy=false,polling=false;
 let sending=false, retryKey=null, retryText=null, lastRender='';
